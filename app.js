@@ -14,6 +14,19 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+//INITIALIZE SEQUELIZE
+const models = require('./models');
+
+models.sequelize.sync().then(function(){
+console.log('database is up!')
+}).catch(function(error){
+        console.log('Problem Launching database update')
+});
+
+
+
+
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 

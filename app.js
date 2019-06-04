@@ -20,7 +20,7 @@ const models = require('./models');
 models.sequelize.sync().then(function(){
 console.log('database is up!')
 }).catch(function(error){
-        console.log('Problem Launching database update')
+        console.log('Problem Launching database update '+error)
 });
 
 

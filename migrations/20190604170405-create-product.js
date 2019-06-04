@@ -12,10 +12,10 @@ module.exports = {
                 type: Sequelize.STRING
             },
             reorderLevel: {
-                type: Sequelize.STRING
+                type: Sequelize.INTEGER
             },
             reorderQuantity: {
-                type: Sequelize.STRING
+                type: Sequelize.INTEGER
             },
             createdAt: {
                 allowNull: false,

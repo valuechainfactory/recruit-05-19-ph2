@@ -12,8 +12,10 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER
         }
     }, {});
-    product.associate = function ({inventory}) {
-        product.hasMany(inventory)
+    product.associate = function ({inventory,sale}) {
+        product.hasMany(inventory);
+        product.hasMany(sale);
+
     };
     return product;
 };

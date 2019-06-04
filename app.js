@@ -5,6 +5,7 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var productController = require('./routes/products');
 
 var app = express();
 
@@ -27,7 +28,9 @@ console.log('database is up!')
 
 
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+// app.use('/', indexRouter);
+// app.use('/users', usersRouter);
+require('./routes/products')(app);
+require('./routes/index')(app);
 
 module.exports = app;

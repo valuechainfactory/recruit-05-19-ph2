@@ -24,5 +24,22 @@ module.exports = (sequelize, DataTypes) => {
     purchaseOrder.associate = ({product}) => {
         purchaseOrder.belongsTo(product)
     };
+
+    purchaseOrder.afterUpdate((purchaseOrder) => {
+        if (purchaseOrder.processed === 'Y') {
+            const product = purchaseOrder.getProduct();
+            return product.then(product => {
+                return product.createInventory({
+                    batchNo: 2,
+                    suppliedQuantity: purchaseOrder.orderQuantity,
+                    stockQuantity: purchaseOrder.orderQuantity,
+                    createdAt: sequelize.fn('NOW'),
+                    updatedAt: sequelize.fn('NOW'),
+                    productId: product.id,
+                    purchaseOrderId: purchaseOrder.id
+                });
+            })
+        }
+    });
     return purchaseOrder;
 };

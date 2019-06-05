@@ -41,13 +41,20 @@ module.exports = {
                 include: [
                     {
                         model: db.product,
-                        attributes: [['name', 'name']],
+                        attributes: [['name']],
                     }
                 ],
                 group: ['batchNo', 'name']
             }
         ).then(availableProducts => res.status(201).send(availableProducts))
             .catch(error => res.status(401).send(error))
+    },
+    getProductStockBalance(productId) {
+        return Inventory.findAll({
+            where: {productId: productId},
+            attributes: ['productId', [db.sequelize.fn('sum', db.sequelize.col('stockQuantity')), 'stockBalance']],
+            group: ['productId'],
+            raw: true
+        });
     }
-
 };

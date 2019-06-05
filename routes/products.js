@@ -8,10 +8,11 @@ module.exports = (app) => {
     app.put(env.UPDATE_PRODUCT, (req, res, next) => {
         productController.update(req, res);
     });
-    app.get(env.GET_PRODUCTS,(req,res, next)=>{
-        productController.fetchAll(req,res);
+    app.get(env.GET_PRODUCTS, (req, res, next) => {
+        productController.fetchAll(req, res);
+    });
+    app.get(env.GET_PRODUCTS_FOR_SALE, (req, res, next) => {
+        productController.fetchProductsForSale(req, res);
     })
 };
 
-
-//@todo get Products

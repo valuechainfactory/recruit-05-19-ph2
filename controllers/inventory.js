@@ -1,5 +1,6 @@
 'use strict';
 const Inventory = require('./../models').inventory;
+const db = require('./../models');
 module.exports = {
     create(req, res) {
         return Inventory.create(
@@ -30,7 +31,23 @@ module.exports = {
     fetchByProduct(req, res) {
         return Inventory.findAll({
             where: {productId: req.body.productId}
-        }).then(inventoryRecs=> res.status(201).send(inventoryRecs))
+        }).then(inventoryRecs => res.status(201).send(inventoryRecs))
+            .catch(error => res.status(401).send(error))
+    },
+    fetchProductsForSale(req, res) {
+        return Inventory.findAll(
+            {
+                attributes: [[db.sequelize.fn('sum', models.sequelize.col('stockQuantity')), 'stockQuantity']],
+                include: [
+                    {
+                        model: db.product,
+                        attributes: [['name', 'name']],
+                    }
+                ],
+                group: ['batchNo', 'name']
+            }
+        ).then(availableProducts => res.status(201).send(availableProducts))
+            .catch(error => res.status(401).send(error))
     }
 
 };

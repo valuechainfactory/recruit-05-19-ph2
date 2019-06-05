@@ -1,4 +1,10 @@
-const Product = require('./product');
+const product = require('./product');
+const inventory = require('./inventory');
+const purchaseOrder = require('./purchaseOrder');
+const sales = require('./sales');
 module.exports = {
-    Product
+    product,
+    inventory,
+    purchaseOrder,
+    sales
 };

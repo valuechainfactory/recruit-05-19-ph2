@@ -22,9 +22,10 @@ module.exports = (sequelize, DataTypes) => {
             defaultValue: sequelize.fn('NOW')
         }
     }, {});
-    product.associate = function ({inventory,sale}) {
+    product.associate = function ({inventory,sale,purchaseOrder}) {
         product.hasMany(inventory);
         product.hasMany(sale);
+        product.hasMany(purchaseOrder);
 
     };
     return product;

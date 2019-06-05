@@ -31,7 +31,7 @@ describe('add', function () {
 
         });
     });
-    afterEach(() => {
+    after(() => {
         dropDemoData();
     });
     it('New sale Should reduce inventory quantity by one', function () {
@@ -52,12 +52,37 @@ describe('add', function () {
             });
             return newSale.then(sale => {
                 return assert.eventually.equal(invController.getProductStockBalance(sale.productId)
-                        .then(result => result[0].stockBalance)
-                    , currentStock - 1)
+                        .then(result => currentStock - result[0].stockBalance)
+                    , 1)
             });
         })
     });
 
+    it('Should create a unprocessed purchase Order', function () {
+        return db.product.findAll({
+            where: {name: ['TESTP2']},
+            include: [{model: db.inventory, limit: 1, order: [['createdAt', 'DESC']]}]
+        }).then(products => {
+            const saleProduct = products[0];
+            const newSale = db.sale.create({
+                quantity: 5,
+                productId: saleProduct.id,
+                inventoryId: saleProduct.inventories[0].id,
+                createdAt: db.sequelize.fn('NOW'),
+                updatedAt: db.sequelize.fn('NOW')
+
+            });
+            const product = newSale.then(sale =>
+                db.product.findOne({
+                    where: {id: sale.productId},
+                    include: [{model: db.purchaseOrder}]
+                }));
+            return product.then(product => {
+                assert.equal(product.purchaseOrders.length, 2)&&
+                assert.eventually.equal(invController.getProductStockBalance(product.id), 2);
+            });
+        })
+    });
 
     function createTestData() {
         return dropDemoData().then(TEST_PRODUCTS.forEach(async product => {
@@ -72,8 +97,8 @@ describe('add', function () {
                     return purchaseOrder.then(async order => {
                         return await db.inventory.create({
                             batchNo: 1,
-                            suppliedQuantity: product.reorderQuantity,
-                            stockQuantity: product.reorderQuantity,
+                            suppliedQuantity: product.reorderQuantity + 2,
+                            stockQuantity: product.reorderQuantity + 2,
                             createdAt: db.sequelize.fn('NOW'),
                             updatedAt: db.sequelize.fn('NOW'),
                             productId: product.id,

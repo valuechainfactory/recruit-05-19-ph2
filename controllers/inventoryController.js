@@ -26,5 +26,11 @@ module.exports = {
         return Inventory.fetchAll()
             .then(invRecords => res.status(201).send(invRecords))
             .catch(error => res.status(401).send(error))
+    },
+    fetchByProduct(req, res) {
+        return Inventory.findAll({
+            where: {productId: req.body.productId}
+        }).then(inventoryRecs=> res.status(201).send(inventoryRecs))
     }
+
 };

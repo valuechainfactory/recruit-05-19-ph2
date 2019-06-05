@@ -1,8 +1,18 @@
 'use strict';
-const Inv = require('models');
+const Inv = require('./../models');
 module.exports = (sequelize, DataTypes) => {
     const sale = sequelize.define('sale', {
-        quantity: DataTypes.INTEGER
+        quantity: DataTypes.INTEGER,
+        createdAt: {
+            allowNull: false,
+            type: DataTypes.DATE,
+            defaultValue: sequelize.fn('NOW')
+        },
+        updatedAt: {
+            allowNull: false,
+            type: DataTypes.DATE,
+            defaultValue: sequelize.fn('NOW')
+        }
     }, {});
     sale.associate = function ({product, inventory}) {
         sale.belongsTo(product);

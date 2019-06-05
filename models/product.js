@@ -10,6 +10,16 @@ module.exports = (sequelize, DataTypes) => {
         },
         reorderQuantity: {
             type: DataTypes.INTEGER
+        },
+        createdAt: {
+            allowNull: false,
+            type: DataTypes.DATE,
+            defaultValue: sequelize.fn('NOW')
+        },
+        updatedAt: {
+            allowNull: false,
+            type: DataTypes.DATE,
+            defaultValue: sequelize.fn('NOW')
         }
     }, {});
     product.associate = function ({inventory,sale}) {

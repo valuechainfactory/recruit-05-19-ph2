@@ -9,6 +9,16 @@ module.exports = (sequelize, DataTypes) => {
                 values: ['Y', 'N']
             }),
             allowNull: false,
+        },
+        createdAt: {
+            allowNull: false,
+            type: DataTypes.DATE,
+            defaultValue: sequelize.fn('NOW')
+        },
+        updatedAt: {
+            allowNull: false,
+            type: DataTypes.DATE,
+            defaultValue: sequelize.fn('NOW')
         }
     }, {});
     purchaseOrder.associate = ({product}) => {

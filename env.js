@@ -17,3 +17,7 @@ module.exports.GET_PENDING_ORDERS = '/orders/pending';
 
 module.exports.CREATE_SALE = '/sales/new';
 module.exports.GET_ALL_SALES = '/sales/all';
+
+module.exports.LOGIN = '/api/login';
+module.exports.LOGOUT = '/api/logout';
+module.exports.SIGNUP = '/api/signup';

@@ -1,4 +1,5 @@
 'use strict';
+const bcrypt = require('bcryptjs');
 module.exports = (sequelize, DataTypes) => {
     const user = sequelize.define('user', {
         username: {
@@ -27,5 +28,13 @@ module.exports = (sequelize, DataTypes) => {
             defaultValue: sequelize.fn('NOW')
         }
     }, {});
+    user.beforeCreate((user) => {
+        return user.password = bcrypt.hashSync(user.password, bcrypt.genSaltSync(10), null);
+    });
+    //This will check if an unhashed password entered by the
+    //user can be compared to the hashed password stored in our database
+    user.prototype.validPassword = function (password) {
+        return bcrypt.compareSync(password, this.password);
+    };
     return user;
 };

@@ -1,4 +1,3 @@
-'use strict';
 const db = require('./../models');
 module.exports = (sequelize, DataTypes) => {
     const inventory = sequelize.define('inventory', {
@@ -26,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
         inventory.belongsTo(product);
         inventory.belongsTo(purchaseOrder);
     };
-    inventory.afterUpdate((invRec)=>{
+    inventory.afterUpdate((invRec) => {
         return inventory.findAll({
             where: {productId: invRec.productId},
             attributes: ['productId', [sequelize.fn('sum', sequelize.col('stockQuantity')), 'stockBalance']],
@@ -34,9 +33,15 @@ module.exports = (sequelize, DataTypes) => {
             raw: true
         }).then(balance => {
             return invRec.getProduct()
-                .then(product=>{
-                    if(product.reorderLevel <= balance[0].stockBalance){
-                     console.log('create order');
+                .then(product => {
+                    if (product.reorderLevel <= balance[0].stockBalance) {
+                        return product.createPurchaseOrder({
+                            orderQuantity: product.reorderQuantity,
+                            processed: 'N',
+                            createdAt: sequelize.fn('NOW'),
+                            updatedAt: sequelize.fn('NOW'),
+                            productId: product.id
+                        }).then(order=> order);
                     }
                 })
         })

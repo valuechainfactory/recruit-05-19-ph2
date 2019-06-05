@@ -19,7 +19,7 @@ const TEST_PRODUCTS = [{
     updatedAt: db.sequelize.fn('NOW')
 }];
 
-describe('add', function () {
+describe('Should test sales, orders, and order dispatching', function () {
     let a = 0;
     before(() => {
         return new Promise((resolve) => {
@@ -78,7 +78,7 @@ describe('add', function () {
                     include: [{model: db.purchaseOrder}]
                 }));
             return product.then(product => {
-                assert.equal(product.purchaseOrders.length, 2)&&
+                assert.equal(product.purchaseOrders.length, 2) &&
                 assert.eventually.equal(invController.getProductStockBalance(product.id), 2);
             });
         })

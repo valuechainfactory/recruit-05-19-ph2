@@ -22,5 +22,10 @@ module.exports = {
             })
             .then(product => res.status(201).send(product))
             .catch(error => res.status(401).send(error))
+    },
+    fetchAll(req, res) {
+        return Product.fetchAll()
+            .then(products => res.status(201).send(products))
+            .catch(error => res.status(401).send(error))
     }
 };

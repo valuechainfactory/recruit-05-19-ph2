@@ -22,17 +22,17 @@ module.exports = {
             .catch(error => res.status(401).send(error))
     },
     fetchAll(req, res) {
-        return purchaseOrder.fetchAll()
+        return purchaseOrder.findAll()
             .then(purchaseOrders => res.status(201).send(purchaseOrders))
             .catch(error => res.status(401).send(error))
     },
     fetchAllUnProcessedOrders(req, res) {
-        return purchaseOrder.fetchAll({where: {processed: 'N'}})
+        return purchaseOrder.findAll({where: {processed: 'N'}})
             .then(purchaseOrders => res.status(201).send(purchaseOrders))
             .catch(error => res.status(401).send(error))
     },
     fetchAllProcessedOrders(req, res) {
-        return purchaseOrder.fetchAll({where: {processed: 'Y'}})
+        return purchaseOrder.findAll({where: {processed: 'Y'}})
             .then(purchaseOrders => res.status(201).send(purchaseOrders))
             .catch(error => res.status(401).send(error))
     }

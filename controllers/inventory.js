@@ -24,7 +24,7 @@ module.exports = {
             .catch(error => res.status(401).send(error))
     },
     fetchAll(req, res) {
-        return Inventory.fetchAll()
+        return Inventory.findAll()
             .then(invRecords => res.status(201).send(invRecords))
             .catch(error => res.status(401).send(error))
     },
@@ -37,17 +37,18 @@ module.exports = {
     fetchProductsForSale(req, res) {
         return Inventory.findAll(
             {
-                attributes: [[db.sequelize.fn('sum', models.sequelize.col('stockQuantity')), 'stockQuantity']],
-                include: [
-                    {
-                        model: db.product,
-                        attributes: [['name']],
-                    }
-                ],
-                group: ['batchNo', 'name']
+                where: db.sequelize.where(
+                    db.sequelize.literal('stockQuantity'),
+                    '>',
+                    0),
+                attributes: [[db.sequelize.fn('sum', db.sequelize.col('stockQuantity')), 'stockQuantity']],
+                include: [{
+                    model: db.product
+                }],
+                group: ['productId']
             }
         ).then(availableProducts => res.status(201).send(availableProducts))
-            .catch(error => res.status(401).send(error))
+            .catch(error => rconsle.es.status(401).send(error))
     },
     getProductStockBalance(productId) {
         return Inventory.findAll({

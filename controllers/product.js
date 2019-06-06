@@ -24,7 +24,7 @@ module.exports = {
             .catch(error => res.status(401).send(error))
     },
     fetchAll(req, res) {
-        return Product.fetchAll()
+        return Product.findAll()
             .then(products => res.status(201).send(products))
             .catch(error => res.status(401).send(error))
     },

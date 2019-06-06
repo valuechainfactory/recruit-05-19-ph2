@@ -9,16 +9,6 @@ module.exports = (sequelize, DataTypes) => {
         },
         stockQuantity: {
             type: DataTypes.INTEGER
-        },
-        createdAt: {
-            allowNull: false,
-            type: DataTypes.DATE,
-            defaultValue: sequelize.fn('NOW')
-        },
-        updatedAt: {
-            allowNull: false,
-            type: DataTypes.DATE,
-            defaultValue: sequelize.fn('NOW')
         }
     }, {});
     inventory.associate = function ({product, purchaseOrder}) {
@@ -34,12 +24,10 @@ module.exports = (sequelize, DataTypes) => {
         }).then(balance => {
             return invRec.getProduct()
                 .then(product => {
-                    if (product.reorderLevel <= balance[0].stockBalance) {
+                    if (Number(balance[0].stockBalance) <=product.reorderLevel) {
                         return product.createPurchaseOrder({
                             orderQuantity: product.reorderQuantity,
                             processed: 'N',
-                            createdAt: sequelize.fn('NOW'),
-                            updatedAt: sequelize.fn('NOW'),
                             productId: product.id
                         }).then(order=> order);
                     }

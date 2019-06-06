@@ -9,16 +9,6 @@ module.exports = (sequelize, DataTypes) => {
                 values: ['Y', 'N']
             }),
             allowNull: false,
-        },
-        createdAt: {
-            allowNull: false,
-            type: DataTypes.DATE,
-            defaultValue: sequelize.fn('NOW')
-        },
-        updatedAt: {
-            allowNull: false,
-            type: DataTypes.DATE,
-            defaultValue: sequelize.fn('NOW')
         }
     }, {});
     purchaseOrder.associate = ({product}) => {
@@ -33,8 +23,6 @@ module.exports = (sequelize, DataTypes) => {
                     batchNo: 2,
                     suppliedQuantity: purchaseOrder.orderQuantity,
                     stockQuantity: purchaseOrder.orderQuantity,
-                    createdAt: sequelize.fn('NOW'),
-                    updatedAt: sequelize.fn('NOW'),
                     productId: product.id,
                     purchaseOrderId: purchaseOrder.id
                 });

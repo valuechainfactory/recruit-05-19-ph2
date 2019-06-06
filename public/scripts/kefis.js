@@ -1,4 +1,4 @@
-const baseUrl = 'http://localhost:3000';
+const baseUrl = window.location.origin;
 window.onload = function () {
 
     if (!localStorage.getItem('token')) {

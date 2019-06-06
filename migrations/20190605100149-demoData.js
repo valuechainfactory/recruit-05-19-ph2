@@ -1,39 +1,56 @@
 'use strict';
 const db = require('./../models');
+const bcrypt = require('bcryptjs');
 module.exports = {
     up: (queryInterface, Sequelize) => {
         'use strict';
-        const createProducts = queryInterface.bulkInsert('products', [{
-            name: 'Mango Juice',
-            reorderLevel: 5,
-            reorderQuantity: 5,
+        const hashPass = bcrypt.hashSync('tester1', bcrypt.genSaltSync(10), null);
+        const createUsers = queryInterface.bulkInsert('users', [{
+            username: 'Retailer',
+            role: 'Retailer',
+            password: hashPass,
             createdAt: Sequelize.fn('NOW'),
             updatedAt: Sequelize.fn('NOW')
         }, {
-            name: 'PineApple Juice',
-            reorderLevel: 2,
-            reorderQuantity: 5,
+            username: 'WareHouse',
+            role: 'WareHouseAttendant',
+            password: hashPass,
             createdAt: Sequelize.fn('NOW'),
             updatedAt: Sequelize.fn('NOW')
-        }, {
-            name: 'Apple Juice',
-            reorderLevel: 3,
-            reorderQuantity: 5,
-            createdAt: Sequelize.fn('NOW'),
-            updatedAt: Sequelize.fn('NOW')
-        }, {
-            name: 'Passion Juice',
-            reorderLevel: 4,
-            reorderQuantity: 5,
-            createdAt: Sequelize.fn('NOW'),
-            updatedAt: Sequelize.fn('NOW')
-        }, {
-            name: 'Cocktail Juice',
-            reorderLevel: 1,
-            reorderQuantity: 5,
-            createdAt: Sequelize.fn('NOW'),
-            updatedAt: Sequelize.fn('NOW')
-        },], {});
+        }
+        ], {});
+        const createProducts = createUsers.then(() =>
+            queryInterface.bulkInsert('products', [{
+                name: 'Mango Juice',
+                reorderLevel: 5,
+                reorderQuantity: 5,
+                createdAt: Sequelize.fn('NOW'),
+                updatedAt: Sequelize.fn('NOW')
+            }, {
+                name: 'PineApple Juice',
+                reorderLevel: 2,
+                reorderQuantity: 5,
+                createdAt: Sequelize.fn('NOW'),
+                updatedAt: Sequelize.fn('NOW')
+            }, {
+                name: 'Apple Juice',
+                reorderLevel: 3,
+                reorderQuantity: 5,
+                createdAt: Sequelize.fn('NOW'),
+                updatedAt: Sequelize.fn('NOW')
+            }, {
+                name: 'Passion Juice',
+                reorderLevel: 4,
+                reorderQuantity: 5,
+                createdAt: Sequelize.fn('NOW'),
+                updatedAt: Sequelize.fn('NOW')
+            }, {
+                name: 'Cocktail Juice',
+                reorderLevel: 1,
+                reorderQuantity: 5,
+                createdAt: Sequelize.fn('NOW'),
+                updatedAt: Sequelize.fn('NOW')
+            },], {}));
 
         return createProducts.then(() => {
             return db.product.findAll().then(products =>
@@ -64,7 +81,9 @@ module.exports = {
     down: (queryInterface, Sequelize) => {
         return Promise.all([queryInterface.bulkDelete('products', null, {}),
             queryInterface.bulkDelete('purchaseOrders', null, {}),
-            queryInterface.bulkDelete('inventories', null, {})
+            queryInterface.bulkDelete('inventories', null, {}),
+            queryInterface.bulkDelete('users', null, {}),
+            queryInterface.bulkDelete('sales', null, {})
         ]);
     }
 }

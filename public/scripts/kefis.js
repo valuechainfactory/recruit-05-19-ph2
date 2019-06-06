@@ -1,4 +1,14 @@
+const baseUrl = 'http://localhost:3000';
 window.onload = function () {
+    if (!localStorage.getItem('token')) {
+        showLogin();
+    } else {
+        afterLogin();
+    }
+    document.getElementById("loginBtn").addEventListener("click", function (event) {
+        event.preventDefault();
+        loginUser();
+    });
     showSalesSection();
     var socket = io();
     socket.on('newSale', () => {
@@ -17,6 +27,30 @@ window.onload = function () {
         refreshAll()
     });
 };
+const config = {
+    headers: {
+        'Authorization': localStorage.getItem('token')
+    }
+};
+
+function showLogin() {
+    $('#navigation').hide();
+    $('#mainApp').hide();
+    $('#loginDiv').show();
+}
+
+function logout() {
+    localStorage.removeItem('token');
+    $('#navigation').hide();
+    $('#mainApp').hide();
+    $('#loginDiv').show();
+}
+
+function afterLogin(username, role) {
+    $('#navigation').show();
+    $('#mainApp').show();
+    $('#loginDiv').hide();
+}
 
 function refreshAll() {
     findAllSales();
@@ -26,7 +60,6 @@ function refreshAll() {
     findAllProductsForSale();
 }
 
-const baseUrl = "http://localhost:3000";
 
 function showSalesSection() {
     $('#allOrders').hide();
@@ -88,7 +121,7 @@ function showNotification(message) {
 }
 
 function findAllProductsForSale() {
-    axios.get(baseUrl + '/products/forSale')
+    axios.get(baseUrl + '/products/forSale', config)
         .then(function (response) {
             displayProductsForSale(response.data)
         })
@@ -99,7 +132,7 @@ function findAllProductsForSale() {
 
 
 function findAllProcessedOrders() {
-    axios.get(baseUrl + '/orders/processed')
+    axios.get(baseUrl + '/orders/processed', config)
         .then(function (response) {
             displayProcessedOrders(response.data);
         })
@@ -110,7 +143,7 @@ function findAllProcessedOrders() {
 
 
 function findAllPendingOrders() {
-    axios.get(baseUrl + '/orders/pending')
+    axios.get(baseUrl + '/orders/pending', config)
         .then(function (response) {
             displayPendingOrders(response.data);
         })
@@ -128,7 +161,7 @@ function formatDate(input) {
 
 
 function findAllOrders() {
-    axios.get(baseUrl + '/orders/all')
+    axios.get(baseUrl + '/orders/all', config)
         .then(function (response) {
             displayAllOrders(response.data);
         })
@@ -147,7 +180,7 @@ function processedStatus(status) {
 }
 
 function findAllSales() {
-    axios.get(baseUrl + '/sales/all')
+    axios.get(baseUrl + '/sales/all', config)
         .then(function (response) {
             displaySales(response.data);
         })
@@ -161,7 +194,7 @@ function emulateSale(productID) {
     axios.post(baseUrl + '/sales/new', {
         quantity: 1,
         productId: productID
-    }).then(function () {
+    }, config).then(function () {
         findAllProductsForSale();
     }).catch(function (error) {
         findAllProductsForSale();
@@ -174,7 +207,7 @@ function emulateDispatch(orderId) {
         {
             id: orderId,
             processed: 'Y'
-        })
+        }, config)
         .then(function () {
             showNotification("Order Dispatched!");
             findAllPendingOrders();
@@ -310,4 +343,24 @@ function displayProductsForSale(products) {
             '</tr>';
         $('#productsTable tr:last').after(row);
     }
+}
+
+function loginUser() {
+    axios.post(baseUrl + '/api/login', {
+            username: $('#inputUsername').val(),
+            password: $('#inputPassword').val()
+        },
+        {
+            headers: {
+                'Content-Type':
+                    'application/json; charset=UTF-8'
+            }
+        }
+    ).then(response => {
+        localStorage.setItem('token', 'Bearer ' + response.data.token);
+        afterLogin(response.data.username, response.data.role);
+    })
+        .catch(error => {
+            handleError(error.response.data.message);
+        });
 }

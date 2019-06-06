@@ -13,16 +13,16 @@
     <link href="/stylesheets/toast.min.css" rel="stylesheet">
 </head>
 <body>
-<nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
+<nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow" id="navigation">
     <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">KEFIS INVENTORY TRACKER</a>
     <ul class="navbar-nav px-3">
         <li class="nav-item text-nowrap">
-            <a class="nav-link" href="#">Sign out</a>
+            <a class="nav-link" href="#" onclick="logout()">Sign out</a>
         </li>
     </ul>
 </nav>
 
-<div class="container-fluid">
+<div class="container-fluid" id="mainApp">
     <div class="row">
         <nav class="col-md-2 d-none d-md-block bg-light sidebar">
             <div class="sidebar-sticky">
@@ -172,6 +172,32 @@
                 </div>
             </div>
         </main>
+    </div>
+</div>
+<div class="container" id="loginDiv">
+    <div class="row">
+        <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+            <div class="card card-signin my-5">
+                <div class="card-body">
+                    <h5 class="card-title text-center">KEFIS LOGIN</h5>
+                    <form class="form-signin" >
+                        <div class="form-label-group">
+                            <input type="text" id="inputUsername" class="form-control" required autofocus>
+                            <label for="inputUsername">Username</label>
+                        </div>
+
+                        <div class="form-label-group">
+                            <input type="password" id="inputPassword" class="form-control" required>
+                            <label for="inputPassword">Password</label>
+                        </div>
+
+                        <button class="btn btn-lg btn-primary btn-block text-uppercase" onsubmit="loginUser()"
+                                id="loginBtn">Sign in
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 <script src="/scripts/jquery-3.4.1.min.js" type="text/javascript"></script>

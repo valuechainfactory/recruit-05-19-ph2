@@ -49,7 +49,17 @@ function showAllOrdersSection() {
 }
 
 function handleError(error) {
-    alert(error);
+    new Toast({
+        message: error.message,
+        type: 'danger'
+    });
+}
+
+function showNotification(message) {
+    new Toast({
+        message: message,
+        type: 'success'
+    });
 }
 
 function findAllProductsForSale() {
@@ -131,6 +141,7 @@ function emulateSale(productID) {
     }).catch(function (error) {
         findAllProductsForSale();
     });
+    showNotification("Sale Completed");
 }
 
 function emulateDispatch(orderId) {
@@ -140,6 +151,7 @@ function emulateDispatch(orderId) {
             processed: 'Y'
         })
         .then(function () {
+            showNotification("Order Dispatched!");
             findAllPendingOrders();
         })
         .catch(function (error) {

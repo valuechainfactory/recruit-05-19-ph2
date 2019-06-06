@@ -2,7 +2,7 @@ var passport = require("passport");
 var LocalStrategy = require("passport-local").Strategy;
 var db = require("../models");
 const passportJWT = require("passport-jwt");
-const ExtractJWT = passportJWT.ExtractJwt;
+const ExtractJwt = passportJWT.ExtractJwt;
 const JWTStrategy = passportJWT.Strategy;
 const KEY = require('./jwtConfig').secret;
 // Telling passport we want to use a Local Strategy. In other words,
@@ -30,24 +30,26 @@ passport.use(new LocalStrategy(
         }).catch(error => cb(error));
     }
 ));
+var opts = {};
+opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
+opts.secretOrKey = KEY;
 
-passport.use(new JWTStrategy({
-        jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
-        secretOrKey: KEY
-    },
-    function (jwtPayload, cb) {
+const strategy = new JWTStrategy(opts, function (jwt_payload, next) {
+    console.log('payload received', jwt_payload);
+    return db.user.findOne(({
+        where: {
+            id: jwt_payload.id
+        }
+    })).then(user => {
+        if (user) {
+            next(null, user);
+        } else {
+            next(null, false);
+        }
+    }).catch(err => {
+        next(null, false);
+    });
+});
+passport.use(strategy);
 
-        //find the user in db if needed
-        return db.user.findOne(({
-            where: {
-                id: jwtPayload.id
-            }
-        })).then(user => {
-            return cb(null, user);
-        })
-            .catch(err => {
-                return cb(err);
-            });
-    }
-));
 module.exports = passport;

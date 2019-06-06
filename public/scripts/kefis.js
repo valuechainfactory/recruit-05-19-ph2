@@ -28,9 +28,7 @@ window.onload = function () {
     });
 };
 const config = {
-    headers: {
-        'Authorization': localStorage.getItem('token')
-    }
+    headers: {'Authorization': "bearer " + localStorage.getItem('token')}
 };
 
 function showLogin() {
@@ -357,7 +355,7 @@ function loginUser() {
             }
         }
     ).then(response => {
-        localStorage.setItem('token', 'Bearer ' + response.data.token);
+        localStorage.setItem('token', response.data.token);
         afterLogin(response.data.username, response.data.role);
     })
         .catch(error => {

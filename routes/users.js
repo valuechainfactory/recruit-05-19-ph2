@@ -18,7 +18,8 @@ module.exports = function (app) {
                 if (err) {
                     res.send(err);
                 }
-                const token = jwt.sign(user.toJSON(), KEY, {expiresIn: 3000000});
+                const payload = {id: user.id};
+                const token = jwt.sign(payload, KEY);
                 return res.json({
                     username: user.username,
                     role: user.role,
@@ -33,22 +34,21 @@ module.exports = function (app) {
             username: req.body.username,
             role: req.body.role,
             password: req.body.password
-        }).then(function () {
+        }).then(() => {
             return db.user.findOne({
                 where: {
                     username: req.body.username
                 }
-            }).then(function (user) {
+            }).then((user) => {
                 res.status(200).json({id: user.id, username: user.username});
             });
-        }).catch(function (err) {
+        }).catch((err) => {
             res.status(422).json(err.errors[0].message);
         });
     });
 // Route for logging user out
-    app.get(env.LOGOUT, function (req, res) {
-        req.logout();
-    });
+    app.get(env.LOGOUT, (req, res) =>
+        req.logout()
+    );
 
-}
-;
+};

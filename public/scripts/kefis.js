@@ -1,20 +1,31 @@
 window.onload = function () {
     showSalesSection();
     var socket = io();
-
     socket.on('newSale', () => {
-        console.log('here');
+        refreshAll()
     });
     socket.on('saleCreated', () => {
-        console.log('saleCreated');
+        refreshAll()
     });
     socket.on('purchaseOrderCreated', () => {
-        console.log('purchaseOrderCreated');
+        refreshAll()
     });
     socket.on('productAdded', () => {
-        console.log('productAdded');
+        refreshAll()
+    });
+    socket.on('purchaseOrderUpdated', () => {
+        refreshAll()
     });
 };
+
+function refreshAll() {
+    findAllSales();
+    findAllPendingOrders();
+    findAllOrders();
+    findAllProcessedOrders();
+    findAllProductsForSale();
+}
+
 const baseUrl = "http://localhost:3000";
 
 function showSalesSection() {

@@ -90,10 +90,10 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 require('./routes/index')(app);
-require('./routes/inventory')(app);
-require('./routes/products')(app);
-require('./routes/purchaseOrder')(app);
+require('./routes/inventory')(app,io);
+require('./routes/products')(app,io);
+require('./routes/purchaseOrder')(app,io);
 require('./routes/sales')(app,io);
-require('./routes/users')(app);
+require('./routes/users')(app,io);
 
 module.exports = app;

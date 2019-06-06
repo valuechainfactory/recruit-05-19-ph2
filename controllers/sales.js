@@ -32,7 +32,7 @@ module.exports = {
                     .catch(error => {
                         //sales failing only due to existing processed records
                         io.emit('saleCreated');
-                        res.status(201).send();
+                        return res.status(201).send();
                     })
             }
         )

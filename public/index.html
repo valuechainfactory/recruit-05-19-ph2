@@ -17,7 +17,7 @@
     <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">KEFIS INVENTORY TRACKER</a>
     <ul class="navbar-nav px-3">
         <li class="nav-item text-nowrap">
-            <a class="nav-link" onclick="logout()">Sign out</a>
+            <a class="nav-link" href="#" onclick="logout()">Sign out</a>
         </li>
     </ul>
 </nav>
@@ -26,7 +26,7 @@
     <div class="row">
         <nav class="col-md-2 d-none d-md-block bg-light sidebar">
             <div class="sidebar-sticky">
-                <ul class="nav flex-column">
+                <ul class="nav flex-column" id="appLinks">
                     <li class="nav-item">
                         <a class="nav-link active" href="#" onclick="showSalesSection()">
                             <span data-feather="home"></span>
@@ -195,16 +195,23 @@
                                 id="loginBtn">Sign in
                         </button>
                     </form>
+                    <div class="card-footer">
+                        <h6>Username1: Retailer, password: tester1</h6>
+                        <h6>Username2: WareHouse, password: tester1</h6>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 <script src="/scripts/jquery-3.4.1.min.js" type="text/javascript"></script>
-<script src="./scripts/bootstrap.min.js" type="text/javascript"></script>
+<script src="/scripts/bootstrap.min.js" type="text/javascript"></script>
 <script src="/scripts/axios.min.js" type="text/javascript"></script>
 <script src="/scripts/kefis.js" type="text/javascript"></script>
 <script src="/scripts/toast.min.js" type="text/javascript"></script>
 <script src="/scripts/socket.io.js" type="text/javascript"></script>
+<script src="/scripts/rendering.js" type="text/javascript"></script>
+<script src="/scripts/utils.js" type="text/javascript"></script>
+<script src="/scripts/api.js" type="text/javascript"></script>
 </body>
 </html>

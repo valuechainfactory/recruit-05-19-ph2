@@ -24,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
         }).then(balance => {
             return invRec.getProduct()
                 .then(product => {
-                    if (Number(balance[0].stockBalance) <=product.reorderLevel) {
+                    if (Number(balance[0].stockBalance) <= product.reorderLevel) {
                         return product.createPurchaseOrder({
                             orderQuantity: product.reorderQuantity,
                             processed: 'N',

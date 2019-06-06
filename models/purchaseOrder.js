@@ -1,4 +1,5 @@
 'use strict';
+const db = require('./../models');
 module.exports = (sequelize, DataTypes) => {
     const purchaseOrder = sequelize.define('purchaseOrder', {
         orderQuantity: {
@@ -14,6 +15,24 @@ module.exports = (sequelize, DataTypes) => {
     purchaseOrder.associate = ({product}) => {
         purchaseOrder.belongsTo(product)
     };
+    purchaseOrder.beforeCreate((order) => {
+        try {
+            return purchaseOrder.findAll({
+                where: {
+                    productId: order.productId,
+                    processed: 'N'
+                }
+            }).then(function (result) {
+                if (result.length >= 1) {
+                    throw new Error(409);
+                } else {
+
+                }
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    });
 
     purchaseOrder.afterUpdate((purchaseOrder) => {
         if (purchaseOrder.processed === 'Y') {
@@ -30,4 +49,5 @@ module.exports = (sequelize, DataTypes) => {
         }
     });
     return purchaseOrder;
-};
+}
+;

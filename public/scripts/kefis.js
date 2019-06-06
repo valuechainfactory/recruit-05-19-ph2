@@ -129,7 +129,7 @@ function emulateSale(productID) {
     }).then(function () {
         findAllProductsForSale();
     }).catch(function (error) {
-        handleError(error);
+        findAllProductsForSale();
     });
 }
 

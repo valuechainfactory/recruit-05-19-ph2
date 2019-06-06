@@ -13,9 +13,13 @@ module.exports = (sequelize, DataTypes) => {
      */
     sale.afterCreate((sale) => {
         return sale.getInventory().then(inventoryRec => {
-            return inventoryRec.update(
-                {stockQuantity: inventoryRec.stockQuantity - sale.quantity}
-            )
+            try {
+                return inventoryRec.update(
+                    {stockQuantity: inventoryRec.stockQuantity - sale.quantity}
+                )
+            } catch (e) {
+                console.log(e);
+            }
         });
     });
     return sale;

@@ -3,7 +3,7 @@ const Sale = require('./../models').sale;
 const db = require('./../models');
 //@todo ensure sale reduces the oldest inventory with available stock;
 module.exports = {
-    create(req, res) {
+    create(req, res, next) {
         return db.inventory.findAll(
             {
                 where: {
@@ -27,10 +27,12 @@ module.exports = {
                     inventoryId: batch[0].id
                 })
                 .then(sale => res.status(201).send(sale))
-                .catch(error => res.status(401).send(error))
+                .catch(error => {
+                    next(error);
+                })
         });
     },
-    fetchAll(req, res) {
+    fetchAll(req, res, next) {
         return Sale.findAll({
             include: [{
                 model: db.product

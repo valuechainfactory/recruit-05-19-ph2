@@ -4,7 +4,7 @@ const invController = require('./../controllers').inventory;
 
 module.exports = (app) => {
     app.post(env.ADD_PRODUCT, (req, res, next) =>
-        productController.create(req, res)
+        productController.create(req, res, io)
     );
     app.put(env.UPDATE_PRODUCT, (req, res, next) =>
         productController.update(req, res)

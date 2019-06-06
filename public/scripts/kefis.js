@@ -1,5 +1,19 @@
 window.onload = function () {
     showSalesSection();
+    var socket = io();
+
+    socket.on('newSale', () => {
+        console.log('here');
+    });
+    socket.on('saleCreated', () => {
+        console.log('saleCreated');
+    });
+    socket.on('purchaseOrderCreated', () => {
+        console.log('purchaseOrderCreated');
+    });
+    socket.on('productAdded', () => {
+        console.log('productAdded');
+    });
 };
 const baseUrl = "http://localhost:3000";
 

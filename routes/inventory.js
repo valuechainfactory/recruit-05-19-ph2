@@ -1,11 +1,11 @@
 const env = require('./../env');
 const invController = require('./../controllers').inventory;
-module.exports = (app) => {
+module.exports = (app, io) => {
     app.post(env.ADD_INV_RECORD, (req, res, next) =>
-        invController.create(req, res)
+        invController.create(req, res, io)
     );
     app.put(env.UPDATE_INV_RECORD, (req, res, next) =>
-        invController.update(req, res)
+        invController.update(req, res,io)
     );
     app.get(env.GET_INV_RECORDS_BY_PRODUCT, (req, res, next) =>
         invController.fetchByProduct(req, res)

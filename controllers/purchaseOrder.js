@@ -2,22 +2,28 @@
 const purchaseOrder = require('./../models').purchaseOrder;
 const db = require('./../models');
 module.exports = {
-    create(req, res) {
+    create(req, res, io) {
         return purchaseOrder.create(
             {
                 orderQuantity: req.body.orderQuantity,
                 productId: req.body.productId
             })
-            .then(purchaseOrder => res.status(201).send(purchaseOrder))
+            .then(purchaseOrder => {
+                io.emit('purchaseOrderCreated');
+                return res.status(201).send(purchaseOrder);
+            })
             .catch(error => res.status(401).send(error))
     },
-    update(req, res) {
+    update(req, res, io) {
         return purchaseOrder.findOne({where: {id: req.body.id}}).then(order =>
             order.update(
                 {
                     processed: req.body.processed
                 })
-                .then(purchaseOrder => res.status(201).send(purchaseOrder))
+                .then(purchaseOrder => {
+                    io.emit('purchaseOrderUpdated');
+                    return res.status(201).send(purchaseOrder)
+                })
                 .catch(error => res.status(401).send(error))
         )
 

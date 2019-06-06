@@ -2,17 +2,20 @@
 const Inventory = require('./../models').inventory;
 const db = require('./../models');
 module.exports = {
-    create(req, res) {
+    create(req, res, io) {
         return Inventory.create(
             {
                 batchNo: req.body.batchNo,
                 suppliedQuantity: req.body.suppliedQuantity,
                 stockQuantity: req.body.stockQuantity
             })
-            .then(inventory => res.status(201).send(inventory))
+            .then(inventory => {
+                io.emit('inventoryRecordCreated');
+                return res.status(201).send(inventory)
+            })
             .catch(error => res.status(401).send(error))
     },
-    update(req, res) {
+    update(req, res,io) {
         return Inventory.update(
             {
                 id: req.body.id,
@@ -20,7 +23,10 @@ module.exports = {
                 suppliedQuantity: req.body.suppliedQuantity,
                 stockQuantity: req.body.stockQuantity
             })
-            .then(inventory => res.status(201).send(inventory))
+            .then(inventory => {
+                io.emit('inventoryRecordUpdated');
+                return res.status(201).send(inventory)
+            })
             .catch(error => res.status(401).send(error))
     },
     fetchAll(req, res) {

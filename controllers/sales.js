@@ -1,6 +1,6 @@
 'use strict';
 const Sale = require('./../models').sale;
-
+//@todo ensure sale reduces the oldest inventory with available stock;
 module.exports = {
     create(req, res) {
         return Sale.create(

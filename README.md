@@ -41,8 +41,10 @@ Feel free to use whatever language you most feel comfortable in.
 
 ### Hosted App Link
 
-    Paste your hosted application url here: __
+    http://kefis254.herokuapp.com/
 
 ### Comments
 
     Add your comments below:
+    I have invited valuechainfactory to the repo hosting the solution to this challenge
+    https://github.com/kyaloj/kefis/invitations

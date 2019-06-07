@@ -1,18 +1,10 @@
 {
   "development": {
-    "username": "root",
-    "password": "Let@G@ri254",
-    "database": "Kefis",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
-  },
-  "test": {
-    "username": "root",
-    "password": "Let@G@ri254",
-    "database": "Kefis",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
-  },
+    "username": "b9daca56cb89d2",
+    "password": "6759e3b5",
+    "database": "heroku_1f6f4149da6f800",
+    "host": "us-cdbr-iron-east-02.cleardb.net",
+    "dialect": "mysql"},
   "production": {
     "username": "b9daca56cb89d2",
     "password": "6759e3b5",

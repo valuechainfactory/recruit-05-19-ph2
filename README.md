@@ -41,9 +41,8 @@ Feel free to use whatever language you most feel comfortable in.
 
 ### Hosted App Link
 
-    Paste your hosted application url here: https://calm-inlet-45696.herokuapp.com
+    https://calm-inlet-45696.herokuapp.com
 
 ### Comments
 
-    Add your comments below: to run tests use
-    npm test
+   To run tests use `npm test` on the project directory

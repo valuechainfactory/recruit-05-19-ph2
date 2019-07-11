@@ -40,8 +40,9 @@ Feel free to use whatever language you most feel comfortable in.
 
 ### Hosted App Link
 
-    Paste your hosted application url here: __
+    Paste your hosted application url here: http://134.209.200.4/login or valuechain-test.peterkitonga.online/login
 
 ### Comments
 
     Add your comments below:
+	- The project credentials are provided on the repo's README on github

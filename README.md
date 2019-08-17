@@ -40,8 +40,12 @@ Feel free to use whatever language you most feel comfortable in.
 
 ### Hosted App Link
 
-    Paste your hosted application url here: __
+    Paste your hosted application url here: 
+    https://reorder-module.firebaseapp.com
 
 ### Comments
 
     Add your comments below:
+    Create an admin account from register.
+    Create employee accounts for store and warehouse.
+    Alternatively, use credentials in project's readme file.
